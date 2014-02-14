@@ -3,51 +3,51 @@ import unittest
 
 import entity
 
-class TestEntityTrait(unittest.TestCase):
+class TestEntityAttribute(unittest.TestCase):
   def setUp(self):
     self.e = entity.Entity()
 
-  def test_add_trait(self):
-    self.assertTrue(self.e.add_trait("test"))
+  def test_add_attribute(self):
+    self.assertTrue(self.e.add_attribute("test"))
 
-  def test_trait(self):
-    self.e.add_trait("test")
-    self.assertTrue(self.e.trait("test"))
+  def test_attribute(self):
+    self.e.add_attribute("test")
+    self.assertTrue(self.e.attribute("test"))
 
-  def test_not_trait(self):
-    self.e1.assertIsNone(self.e.trait("test"))
+  def test_not_attribute(self):
+    self.e1.assertIsNone(self.e.attribute("test"))
 
-  def test_add_trait_value(self):
-    self.assertTrue(self.e.add_trait("test", "value"))
+  def test_add_attribute_value(self):
+    self.assertTrue(self.e.add_attribute("test", "value"))
 
-  def test_add_trait_value_int(self):
-    self.assertTrue(self.e.add_trait("test", 5))
+  def test_add_attribute_value_int(self):
+    self.assertTrue(self.e.add_attribute("test", 5))
 
-  def test_trait_value(self):
-    self.e.add_trait("test", "value")
-    self.assertEquals(self.e.trait("test"), "value")
+  def test_attribute_value(self):
+    self.e.add_attribute("test", "value")
+    self.assertEquals(self.e.attribute("test"), "value")
 
-  def test_trait_value_int(self):
-    self.e.add_trait("test", 5)
-    self.assertTrue(self.e.trait("test"), 5)
+  def test_attribute_value_int(self):
+    self.e.add_attribute("test", 5)
+    self.assertTrue(self.e.attribute("test"), 5)
 
-  def test_remove_trait(self):
-    self.e.add_trait("test")
-    self.assertTrue(self.e.remove_trait("test"))
-    self.assertIsNone(self.e.trait("test"))
+  def test_remove_attribute(self):
+    self.e.add_attribute("test")
+    self.assertTrue(self.e.remove_attribute("test"))
+    self.assertIsNone(self.e.attribute("test"))
 
-  def test_remove_trait_nonexistent(self):
-    self.assertFalse(self.e.remove_trait("test"))
+  def test_remove_attribute_nonexistent(self):
+    self.assertFalse(self.e.remove_attribute("test"))
 
 class TestEntityCarry(unittest.TestCase):
   def setUp(self):
     self.e1 = entity.Entity()
     self.e2 = entity.Entity()
     self.e3 = entity.Entity()
-    self.e1.add_trait("carrier")
-    self.e2.add_trait("carrier")
-    self.e2.add_trait("carriable")
-    self.e3.add_trait("carriable")
+    self.e1.add_attribute("carrier")
+    self.e2.add_attribute("carrier")
+    self.e2.add_attribute("carriable")
+    self.e3.add_attribute("carriable")
 
   def test_carry(self):
     self.assertTrue(self.e1.carry(self.e2))
@@ -64,7 +64,7 @@ class TestEntityCarry(unittest.TestCase):
     self.assertNotIn(self.e2, self.e3.carries())
     
   def test_carry_noncarriable(self):
-    self.e2.remove_trait("carriable")
+    self.e2.remove_attribute("carriable")
     self.assertFalse(self.e1.carry(self.e2))
     self.assertNotIn(self.e2, self.e1.carries())
 
