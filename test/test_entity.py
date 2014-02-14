@@ -15,7 +15,7 @@ class TestEntityAttribute(unittest.TestCase):
     self.assertTrue(self.e.attribute("test"))
 
   def test_not_attribute(self):
-    self.e1.assertIsNone(self.e.attribute("test"))
+    self.assertIsNone(self.e.attribute("test"))
 
   def test_add_attribute_value(self):
     self.assertTrue(self.e.add_attribute("test", "value"))
