@@ -100,6 +100,9 @@ class TestEntityMessage(unittest.TestCase):
     self.assertIsNone(self.e.attribute("t1"))
     self.assertTrue(self.e.attribute("t2"))
 
+  def test_remove_handler_nonexistent(self):
+    self.assertFalse(self.remove_handler("test"))
+
 class TestEntityCarry(unittest.TestCase):
   def setUp(self):
     self.e1 = entity.Entity()
