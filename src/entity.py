@@ -38,9 +38,9 @@ class Entity:
       component.update(self)
 
   """ Messages """
-  def message(self, message):
+  def message(self, message, parameters=[]):
     for handler in self.message_handlers[message]:
-      handler(self)
+      handler(self, parameters)
 
   def add_handler(self, message, function):
     self.message_handlers[message].append(function)
