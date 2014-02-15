@@ -76,18 +76,18 @@ class TestEntityMessage(unittest.TestCase):
 
   def test_message_no_handler(self):
     self.e.message("test")
-    self.e.assertIsNone(self.e.attribute("t1"))
+    self.assertIsNone(self.e.attribute("t1"))
 
   def test_remove_handler(self):
     self.e.add_handler("test", self.test_function1)
-    assertTrue(self.remove_handler("test"))
+    self.assertTrue(self.e.remove_handler("test"))
     self.e.message("test")
-    self.e.assertIsNone(self.e.attribute("t1"))
+    self.assertIsNone(self.e.attribute("t1"))
 
   def test_remove_handler_multiple(self):
     self.e.add_handler("test", self.test_function1)
     self.e.add_handler("test", self.test_function2)
-    assertTrue(self.remove_handler("test"))
+    self.assertTrue(self.e.remove_handler("test"))
     self.e.message("test")
     self.assertIsNone(self.e.attribute("t1"))
     self.assertIsNone(self.e.attribute("t2"))
@@ -95,13 +95,13 @@ class TestEntityMessage(unittest.TestCase):
   def test_remove_handler_unique(self):
     self.e.add_handler("test", self.test_function1)
     self.e.add_handler("test", self.test_function2)
-    assertTrue(self.remove_handler("test", self.test_function1))
+    self.assertTrue(self.e.remove_handler("test", self.test_function1))
     self.e.message("test")
     self.assertIsNone(self.e.attribute("t1"))
     self.assertTrue(self.e.attribute("t2"))
 
   def test_remove_handler_nonexistent(self):
-    self.assertFalse(self.remove_handler("test"))
+    self.assertFalse(self.e.remove_handler("test"))
 
 class TestEntityCarry(unittest.TestCase):
   def setUp(self):
