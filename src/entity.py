@@ -4,6 +4,7 @@ class Entity:
   def __init__(self):
     self.attributes = defaultdict(lambda: None)
     self.message_handlers = defaultdict(list)
+    self.components = []
 
   """ Attributes """
   def attribute(self, attribute):
@@ -18,6 +19,23 @@ class Entity:
       del self.attributes[attribute]
       return True
     return False
+
+  """ Components """
+  def add_component(self, component):
+    self.components.append(component)
+    component.got_added(self)
+    return True
+
+  def remove_component(self, component):
+    if component in self.components:
+      self.components.remove(component)      
+      component.got_removed(self)
+      return True
+    return False
+
+  def update(self):
+    for component in self.components:
+      component.update(self)
 
   """ Messages """
   def message(self, message):
