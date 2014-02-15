@@ -1,6 +1,7 @@
 import random
 import unittest
 
+import component
 import entity
 
 class TestEntityAttribute(unittest.TestCase):
@@ -102,6 +103,33 @@ class TestEntityMessage(unittest.TestCase):
 
   def test_remove_handler_nonexistent(self):
     self.assertFalse(self.e.remove_handler("test"))
+
+class TestEntityComponent(unittest.TestCase):
+  def setUp(self):
+    self.e = entity.Entity()
+    self.c = component.Component()
+    self.c.got_added = lambda e: e.add_attribute("added")
+    self.c.got_removed = lambda e: e.add_attribute("removed")
+    self.c.update = lambda e: e.add_attribute("updated")
+
+  def test_add_component(self):
+    self.assertTrue(self.e.add_component(self.c))
+    self.assertTrue(self.e.attribute("added"))
+
+  def test_remove_component(self):
+    self.e.add_component(self.c)
+    self.assertTrue(self.e.remove_component(self.c))
+    self.assertTrue(self.e.attribute("added"))
+    self.assertTrue(self.e.attribute("removed"))
+
+  def test_remove_component_nonexistant(self):
+    self.assertFalse(self.e.remove_component(self.c))
+    self.assertIsNone(self.e.attribute("removed"))
+
+  def test_update_component(self):
+    self.e.add_component(self.c)
+    self.e.update()
+    self.assertTrue(self.e.attribute("updated"))
 
 class TestEntityCarry(unittest.TestCase):
   def setUp(self):
