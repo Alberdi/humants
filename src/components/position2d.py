@@ -16,6 +16,7 @@ class Position2D(component.Component):
     y = entity.attribute("y")
     entity.remove_attribute("x")
     entity.remove_attribute("y")
+    entity.remove_handler("moved", self.moved_handler)
     world.positions[(x, y)].remove(entity)
 
   def moved_handler(self, entity, parameters):
