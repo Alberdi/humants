@@ -116,7 +116,7 @@ class TestEntityComponent(unittest.TestCase):
     self.c = component.Component()
     self.c.got_added = lambda e: e.add_attribute("added")
     self.c.got_removed = lambda e: e.add_attribute("removed")
-    self.c.update = lambda e: e.add_attribute("updated")
+    self.c.update = lambda e,p: e.add_attribute("updated")
 
   def test_add_component(self):
     self.assertTrue(self.e.add_component(self.c))
@@ -134,6 +134,7 @@ class TestEntityComponent(unittest.TestCase):
 
   def test_update_component(self):
     self.e.add_component(self.c)
+    self.e.add_handler("update", self.c.update)
     self.e.update()
     self.assertTrue(self.e.attribute("updated"))
 

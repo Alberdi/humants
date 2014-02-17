@@ -33,10 +33,6 @@ class Entity:
       return True
     return False
 
-  def update(self):
-    for component in self.components:
-      component.update(self)
-
   """ Messages """
   def message(self, message, parameters=[]):
     for handler in self.message_handlers[message]:
@@ -54,4 +50,7 @@ class Entity:
     else:
       del self.message_handlers[message]
     return True
+
+  def update(self):
+    self.message("update")
       
