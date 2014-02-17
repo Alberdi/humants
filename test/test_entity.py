@@ -70,7 +70,7 @@ class TestEntityMessage(unittest.TestCase):
     self.e = entity.Entity()
     self.test_function1 = lambda e,p: e.add_attribute("t1")
     self.test_function2 = lambda e,p: e.add_attribute("t2")
-    self.test_function3 = lambda e,p: e.add_attribute(p[0])
+    self.test_function3 = lambda e,p: e.add_attribute(p["test"])
 
   def test_add_handler(self):
     self.assertTrue(self.e.add_handler("test", self.test_function1))
@@ -86,7 +86,7 @@ class TestEntityMessage(unittest.TestCase):
 
   def test_message_parameters(self):
     self.e.add_handler("test", self.test_function3)
-    self.e.message("test", ["t3"])
+    self.e.message("test", {"test": "t3"})
     self.assertTrue(self.e.attribute("t3"))
 
   def test_message_multiple_handle(self):

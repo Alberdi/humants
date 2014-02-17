@@ -41,7 +41,7 @@ class Entity:
     return False
 
   """ Messages """
-  def message(self, message, parameters=[]):
+  def message(self, message, parameters={}):
     for handler in self.message_handlers[message]:
       handler(self, parameters)
 
