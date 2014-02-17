@@ -5,27 +5,21 @@ class Position2D(component.Component):
   def __init__(self):
     pass
 
-  def got_added(self, entity):
-    entity.add_attribute("x", 0)
-    entity.add_attribute("y", 0)
-    entity.add_handler("moved", self.moved_handler)
-    world.positions[(0, 0)].append(entity)
+  def got_added(self, e):
+    world.positions[(0, 0)].append(e)
+    e.add_attribute("x", 0)
+    e.add_attribute("y", 0)
+    e.add_handler("moved", self.moved_handler)
   
-  def got_removed(self, entity):
-    x = entity.attribute("x")
-    y = entity.attribute("y")
-    entity.remove_attribute("x")
-    entity.remove_attribute("y")
-    entity.remove_handler("moved", self.moved_handler)
-    world.positions[(x, y)].remove(entity)
+  def got_removed(self, e):
+    world.positions[(e.attribute("x"), e.attribute("y"))].remove(e)
+    e.remove_attribute("x")
+    e.remove_attribute("y")
+    e.remove_handler("moved", self.moved_handler)
 
-  def moved_handler(self, entity, parameters):
-    prev_x = parameters["previous_x"]
-    prev_y = parameters["previous_y"]
-    world.positions[(prev_x, prev_y)].remove(entity)
-    new_x = parameters["new_x"]
-    new_y = parameters["new_y"]
-    entity.update_attribute("x", new_x)
-    entity.update_attribute("y", new_y)
-    world.positions[(new_x, new_y)].append(entity)
+  def moved_handler(self, e, p):
+    world.positions[(p["previous_x"], p["previous_y"])].remove(e)
+    e.update_attribute("x", p["new_x"])
+    e.update_attribute("y", p["new_y"])
+    world.positions[(p["new_x"], p["new_y"])].append(e)
     
