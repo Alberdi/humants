@@ -20,6 +20,13 @@ class Entity:
       return True
     return False
 
+  def update_attribute(self, attribute, value, function=lambda x,y: y):
+    if attribute not in self.attributes:
+      return False
+    self.attributes[attribute] = function(self.attributes[attribute], value)
+    return True
+
+
   """ Components """
   def add_component(self, component):
     self.components.append(component)

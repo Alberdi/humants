@@ -50,6 +50,21 @@ class TestEntityAttribute(unittest.TestCase):
   def test_remove_attribute_nonexistent(self):
     self.assertFalse(self.e.remove_attribute("test"))
 
+  def test_update_attribute(self):
+    self.e.add_attribute("test", 5)
+    self.assertTrue(self.e.update_attribute("test", 6))
+    self.assertEqual(self.e.attribute("test"), 6)
+
+  def test_update_attribute_function(self):
+    self.e.add_attribute("test", 5)
+    add = lambda x,y: x+y
+    self.assertTrue(self.e.update_attribute("test", 1, add))
+    self.assertEqual(self.e.attribute("test"), 6)
+
+  def test_update_attribute_nonexistent(self):
+    self.assertFalse(self.e.update_attribute("test", 5))
+    self.assertFalse(self.e.attribute("test"))
+
 class TestEntityMessage(unittest.TestCase):
   def setUp(self):
     self.e = entity.Entity()
