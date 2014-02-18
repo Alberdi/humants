@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-class Entity:
+class Entity(object):
   def __init__(self):
     self.attributes = defaultdict(lambda: None)
     self.message_handlers = defaultdict(list)
