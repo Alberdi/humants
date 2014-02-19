@@ -1,22 +1,23 @@
+import itertools
+import operator
+
 import component
 import world
 
-class GoToTarget2D(component.Component):
+class GoToTarget(component.Component):
   def __init__(self):
     self.attributes = [("path_to_target", [])]
     self.handlers = [("can_move", self.can_move_handler)]
 
   def can_move_handler(self, e, p):
     if (not e.attribute("can_move") or not e.attribute("target") or
-        e.attribute("target") == (e.attribute("x"), e.attribute("y"))):
+        e.attribute("target") == e.attribute("position")):
       return
     path = e.attribute("path_to_target")
     if path and self.is_passable(path[0]):
       e.update_attribute("can_move", False)
-      e.message("moved", {"new_x": path[0][0], "new_y": path[0][1]})
-      path.pop(0)
+      e.message("moved", {"new_position": path.pop(0)})
     elif self.get_new_path(e):
-      print e.attribute("path_to_target")
       self.can_move_handler(e, p) 
 
   def is_passable(self, pos):
@@ -29,7 +30,7 @@ class GoToTarget2D(component.Component):
     # Using the A* algorithm
     came_from = {}
     closedset = []
-    openset = [(e.attribute("x"), e.attribute("y"))]
+    openset = [e.attribute("position")]
     g_score = {openset[0]: 0}
     f_score = {openset[0]: self.heuristic(openset[0], e.attribute("target"))}
     while openset:
@@ -51,12 +52,15 @@ class GoToTarget2D(component.Component):
     return False
 
   def get_neighbours(self, position):
+    neighbours = []
+    for c in position:
+      neighbours.append([c-1, c, c+1])
     return filter(lambda p: p != position and self.is_passable(p),
-                 [(position[0]+a, position[1]+b)
-                 for a in range(-1,2) for b in range(-1,2)])
+                  [n for n in itertools.product(*neighbours)])
 
   def heuristic(self, origin, target):
-    return max(abs(target[0]-origin[0]), abs(target[1]-origin[1]))
+    return reduce(lambda a,b: max(abs(a), abs(b)),
+                  map(operator.sub, origin, target))
 
   def reconstruct_path(self, position, came_from):
     p = []
