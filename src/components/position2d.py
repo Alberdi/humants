@@ -15,7 +15,7 @@ class Position2D(component.Component):
     super(Position2D, self).got_removed(e)
  
   def moved_handler(self, e, p):
-    world.positions[(p["previous_x"], p["previous_y"])].remove(e)
+    world.positions[(e.attribute("x"), e.attribute("y"))].remove(e)
     e.update_attribute("x", p["new_x"])
     e.update_attribute("y", p["new_y"])
     world.positions[(p["new_x"], p["new_y"])].append(e)
