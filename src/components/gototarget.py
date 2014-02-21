@@ -5,7 +5,8 @@ import component
 import world
 
 class GoToTarget(component.Component):
-  def __init__(self):
+  def __init__(self, max_tries=200):
+    self.max_tries = max_tries
     self.attributes = [("path_to_target", [])]
     self.handlers = [("can_move", self.can_move_handler)]
 
@@ -28,6 +29,7 @@ class GoToTarget(component.Component):
 
   def get_new_path(self, e):
     # Using the A* algorithm
+    tries = 0
     came_from = {}
     closedset = []
     openset = [e.attribute("position")]
@@ -49,6 +51,9 @@ class GoToTarget(component.Component):
           f_score[n] = g_score[n] + self.heuristic(n, e.attribute("target"))
           if n not in openset:
             openset.append(n)
+      tries += 1
+      if tries > self.max_tries:
+        return False
     return False
 
   def get_neighbours(self, position):
@@ -59,8 +64,8 @@ class GoToTarget(component.Component):
                   [n for n in itertools.product(*neighbours)])
 
   def heuristic(self, origin, target):
-    return reduce(lambda a,b: max(abs(a), abs(b)),
-                  map(operator.sub, origin, target))
+    return abs(reduce(lambda a,b: max(abs(a), abs(b)),
+                  map(operator.sub, origin, target)))
 
   def reconstruct_path(self, position, came_from):
     p = []
