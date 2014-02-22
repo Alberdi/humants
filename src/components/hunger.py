@@ -5,7 +5,13 @@ import component
 class Hunger(component.Component):
   def __init__(self):
     self.attributes = [("hunger", 0), ("max_hunger", 1000)]
-    self.handlers = [("update", self.update_handler)]
+    self.handlers = [("eat", self.eat_handler),
+                     ("update", self.update_handler)]
+
+  def eat_handler(self, e, p):
+    calories = p["eaten_entity"].attribute("calories")
+    if calories:
+      e.update_attribute("hunger", calories, lambda a,b: max(a-b, 0))
 
   def update_handler(self, e, p):
     ratio_before = e.attribute("hunger")*4/e.attribute("max_hunger")

@@ -8,6 +8,14 @@ class TestHunger(unittest.TestCase):
     self.e = entity.Entity()
     self.e.add_component(components.hunger.Hunger())
     self.e.update_attribute("max_hunger", 10)
+    self.food = entity.Entity()
+    self.food.add_attribute("calories", 2)
+
+  def test_eat(self):
+    self.e.update()
+    self.assertNotEqual(self.e.attribute("hunger"), 0)
+    self.e.message("eat", {"eaten_entity": self.food})
+    self.assertEqual(self.e.attribute("hunger"), 0)
 
   def test_getting_hungry_handler(self):
     self.e.add_handler("getting_hungry", lambda e,p: e.add_attribute("test"))
