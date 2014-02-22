@@ -22,7 +22,8 @@ class TestComponent(unittest.TestCase):
   def test_got_removed(self):
     self.c.attributes = [("test", True)]
     self.e.add_component(self.c)
-    self.assertTrue(self.e.attribute("test"))
+    self.e.remove_component(self.c)
+    self.assertIsNone(self.e.attribute("test"))
 
   def test_got_removed_multiple(self):
     self.c.attributes = [("t1", True), ("t2", True)]
