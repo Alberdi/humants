@@ -10,14 +10,14 @@ class TestGoToTarget(unittest.TestCase):
     self.e = entity.Entity()
     self.go_to_target = components.gototarget.GoToTarget(max_tries=25)
     self.e.add_component(self.go_to_target)
-    self.e.add_attribute("can_move")
+    self.e.add_attribute("can_act")
 
   def tearDown(self):
     world.reset()
 
   def allow_move(self, e):
-    e.update_attribute("can_move", True)
-    e.message("can_move")
+    e.update_attribute("can_act", True)
+    e.message("can_act")
 
   def place_block(self, position):
       block = entity.Entity()

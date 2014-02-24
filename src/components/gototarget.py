@@ -8,18 +8,18 @@ class GoToTarget(component.Component):
   def __init__(self, max_tries=200):
     self.max_tries = max_tries
     self.attributes = [("path_to_target", [])]
-    self.handlers = [("can_move", self.can_move_handler)]
+    self.handlers = [("can_act", self.can_act_handler)]
 
-  def can_move_handler(self, e, p):
-    if (not e.attribute("can_move") or not e.attribute("target") or
+  def can_act_handler(self, e, p):
+    if (not e.attribute("can_act") or not e.attribute("target") or
         e.attribute("target") == e.attribute("position")):
       return
     path = e.attribute("path_to_target")
     if path and self.is_passable(path[0]):
-      e.update_attribute("can_move", False)
+      e.update_attribute("can_act", False)
       e.message("moved", {"new_position": path.pop(0)})
     elif self.get_new_path(e):
-      self.can_move_handler(e, p) 
+      self.can_act_handler(e, p) 
 
   def is_passable(self, pos):
     for e in world.positions[pos]:
