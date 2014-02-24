@@ -11,16 +11,16 @@ class TestHunger(unittest.TestCase):
     self.food = entity.Entity()
     self.food.add_attribute("calories", 2)
 
-  def test_eat(self):
+  def test_ate(self):
     for i in range(3):
       self.e.update()
-    self.e.message("eat", {"eaten_entity": self.food})
+    self.e.message("ate", {"eaten_entity": self.food})
     self.assertEqual(self.e.attribute("hunger"), 1)
 
-  def test_eat_positive(self):
+  def test_ate_positive(self):
     self.e.update()
     self.assertNotEqual(self.e.attribute("hunger"), 0)
-    self.e.message("eat", {"eaten_entity": self.food})
+    self.e.message("ate", {"eaten_entity": self.food})
     self.assertEqual(self.e.attribute("hunger"), 0)
 
   def test_getting_hungry_handler(self):

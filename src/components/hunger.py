@@ -5,10 +5,10 @@ import component
 class Hunger(component.Component):
   def __init__(self):
     self.attributes = [("hunger", 0), ("max_hunger", 1000)]
-    self.handlers = [("eat", self.eat_handler),
+    self.handlers = [("ate", self.ate_handler),
                      ("update", self.update_handler)]
 
-  def eat_handler(self, e, p):
+  def ate_handler(self, e, p):
     calories = p["eaten_entity"].attribute("calories")
     if calories:
       e.update_attribute("hunger", calories, lambda a,b: max(a-b, 0))
