@@ -14,7 +14,6 @@ class TestMortal(unittest.TestCase):
     self.e.add_component(c)
 
   def test_died_handler(self):
-    print self.e.components
     self.e.message("died")
     self.assertIsNone(self.e.attribute("test"))
     self.e.message("handler")
