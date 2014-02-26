@@ -15,7 +15,7 @@ class Senescence(component.Component):
       new_etape = self.age_etapes[e.attribute("age")]
       e.update_attribute("age_etape", new_etape)
       if new_etape == "dead":
-        e.message("dead", {"reason": "age"})
+        e.message("died", {"reason": "senescence"})
       else:  
         e.message("grown", {"new_etape": new_etape})
 
