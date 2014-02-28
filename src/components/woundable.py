@@ -11,13 +11,15 @@ class Woundable(component.Component):
 
   def healed_handler(self, e, p):
     if e.attribute("healable"):
-      e.update_attribute("wounds", 1, lambda x,y: max(x-y, 0))
+      amount = p["amount"] if "amount" in p else 1
+      e.update_attribute("wounds", amount, lambda x,y: max(x-y, 0))
       if e.attribute("wounds") == e.attribute("max_wounds")-1:
         e.message("revived", {"reason": "heal"})
 
   def wounded_handler(self, e, p):
     if e.attribute("woundable"):
-      e.update_attribute("wounds", 1, operator.add)
+      amount = p["amount"] if "amount" in p else 1
+      e.update_attribute("wounds", amount, operator.add)
       if e.attribute("wounds") >=  e.attribute("max_wounds"):
         e.message("died", {"reason": "wounds"})
 

@@ -13,6 +13,11 @@ class TestWoundable(unittest.TestCase):
     self.e.message("healed", {"healer": entity.Entity()})
     self.assertEqual(self.e.attribute("wounds"), 1)
 
+  def test_healed_amount(self):
+    self.e.update_attribute("wounds", 2)
+    self.e.message("healed", {"healer": entity.Entity(), "amount": 3})
+    self.assertEqual(self.e.attribute("wounds"), 0)
+
   def test_healed_unhealable(self):
     self.e.update_attribute("wounds", 2)
     self.e.update_attribute("healable", False)
@@ -28,6 +33,10 @@ class TestWoundable(unittest.TestCase):
   def test_wounded(self):
     self.e.message("wounded", {"attacker": entity.Entity()})
     self.assertEqual(self.e.attribute("wounds"), 1)
+
+  def test_wounded_amount(self):
+    self.e.message("wounded", {"attacker": entity.Entity(), "amount": 3})
+    self.assertEqual(self.e.attribute("wounds"), 3)
 
   def test_wounded_unwoundable(self):
     self.e.update_attribute("woundable", False)
