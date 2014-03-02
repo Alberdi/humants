@@ -31,23 +31,30 @@ class TestWoundable(unittest.TestCase):
     self.assertTrue(self.e.attribute("test"))
 
   def test_wounded(self):
-    self.e.message("wounded", {"attacker": entity.Entity()})
+    self.e.message("wounded", {"wounder": entity.Entity()})
     self.assertEqual(self.e.attribute("wounds"), 1)
 
   def test_wounded_amount(self):
-    self.e.message("wounded", {"attacker": entity.Entity(), "amount": 3})
+    self.e.message("wounded", {"wounder": entity.Entity(), "amount": 3})
     self.assertEqual(self.e.attribute("wounds"), 3)
 
   def test_wounded_unwoundable(self):
     self.e.update_attribute("woundable", False)
-    self.e.message("wounded", {"attacker": entity.Entity()})
+    self.e.message("wounded", {"wounder": entity.Entity()})
     self.assertEqual(self.e.attribute("wounds"), 0)
 
   def test_died_message(self):
     self.e.add_handler("died", lambda e,p: e.add_attribute("test"))
     self.e.update_attribute("max_wounds", 1)
-    self.e.message("wounded", {"attacker": entity.Entity()})
+    self.e.message("wounded", {"wounder": entity.Entity()})
     self.assertTrue(self.e.attribute("test"))
+
+  def test_killed_message(self):
+    killer = entity.Entity()
+    killer.add_handler("killed", lambda e,p: e.add_attribute("test"))
+    self.e.update_attribute("max_wounds", 1)
+    self.e.message("wounded", {"wounder": killer})
+    self.assertTrue(killer.attribute("test"))
 
 if __name__ == "__main__":
   unittest.main()

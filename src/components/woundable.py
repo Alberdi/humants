@@ -22,4 +22,6 @@ class Woundable(component.Component):
       e.update_attribute("wounds", amount, operator.add)
       if e.attribute("wounds") >=  e.attribute("max_wounds"):
         e.message("died", {"reason": "wounds"})
+        if "wounder" in p:
+          p["wounder"].message("killed", {"killed": e})
 
