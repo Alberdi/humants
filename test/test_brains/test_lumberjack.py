@@ -48,7 +48,16 @@ class TestLumberjack(unittest.TestCase):
       self.e.update()
     self.assertEqual(self.e.attribute("position"), (3,0))
 
-  def test_all_closed(self):
+  def test_closer_got_blocked(self):
+    for i in range(4):
+      self.e.update()
+    block = entityfactory.block()
+    block.message("moved", {"new_position": (2,2)})
+    for i in range(6):
+      self.e.update()
+    self.assertEqual(self.e.attribute("position"), (3,0))
+
+  def test_all_blocked(self):
     block = entityfactory.block()
     block.message("moved", {"new_position": (2,2)})
     block = entityfactory.block()
