@@ -15,4 +15,6 @@ class Mortal(component.Component):
       # Maybe they don't matter that much because the entity is dead.
       for c in e.components[:]:
         e.remove_component(c)
+      if e in world.entities:
+        world.entities.remove(e)
 

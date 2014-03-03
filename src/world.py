@@ -1,7 +1,9 @@
 from collections import defaultdict
 
+entities = []
 positions = defaultdict(list)
 
 def reset():
-  global positions
+  global entities, positions
+  entities = []
   positions = defaultdict(list)
