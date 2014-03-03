@@ -30,7 +30,26 @@ class TestHunger(unittest.TestCase):
     self.assertIsNone(self.e.attribute("test"))
     self.e.update()
     self.assertTrue(self.e.attribute("test"))
+ 
+  def test_hungry(self):
+    for i in range(4):
+      self.e.update()
+    self.assertFalse(self.e.attribute("hungry"))
+    self.e.update()
+    self.assertTrue(self.e.attribute("hungry"))
 
+  def test_hungry_ate(self):
+    for i in range(5):
+      self.e.update()
+    self.e.message("ate", {"eaten_entity": self.food})
+    self.assertFalse(self.e.attribute("hungry"))
+
+  def test_hungry_ate_still(self):
+    for i in range(7):
+      self.e.update()
+    self.e.message("ate", {"eaten_entity": self.food})
+    self.assertTrue(self.e.attribute("hungry"))
+   
   def test_starving_handler(self):
     self.e.add_handler("starving", lambda e,p: e.add_attribute("test"))
     for i in range(7):
@@ -39,6 +58,25 @@ class TestHunger(unittest.TestCase):
     self.e.update()
     self.assertTrue(self.e.attribute("test"))
 
+  def test_starving(self):
+    for i in range(7):
+      self.e.update()
+    self.assertFalse(self.e.attribute("starving"))
+    self.e.update()
+    self.assertTrue(self.e.attribute("starving"))
+
+  def test_starving_ate(self):
+    for i in range(8):
+      self.e.update()
+    self.e.message("ate", {"eaten_entity": self.food})
+    self.assertFalse(self.e.attribute("starving"))
+
+  def test_starving_ate_still(self):
+    for i in range(10):
+      self.e.update()
+    self.e.message("ate", {"eaten_entity": self.food})
+    self.assertTrue(self.e.attribute("starving"))
+ 
   def test_died_handler(self):
     self.e.add_handler("died", lambda e,p:
                                       e.add_attribute("died_"+p["reason"]))
