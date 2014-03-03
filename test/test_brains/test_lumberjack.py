@@ -13,6 +13,9 @@ class TestLumberjack(unittest.TestCase):
     self.t2 = entityfactory.tree()
     self.t2.message("moved", {"new_position": (3,0)})
     world.entities.append(self.t2)
+    self.c = entityfactory.canteen()
+    self.c.message("moved", {"new_position": (0,1)})
+    world.entities.append(self.c)
 
   def tearDown(self):
     world.reset()
@@ -71,6 +74,21 @@ class TestLumberjack(unittest.TestCase):
       self.e.update()
     self.assertEqual(len(filter(lambda e: e.attribute("type") == "log",
                             world.positions[(0,0)])), 2)
+
+  def test_hungry(self):
+    self.e.update_attribute("hungry", True)
+    for i in range(4):
+      self.e.update()
+    self.assertEqual(self.e.attribute("position"), (0,1))
+
+  def test_hungry_closer_canteen(self):
+    c = entityfactory.canteen()
+    c.message("moved", {"new_position": (3,1)})
+    world.entities.append(c)
+    self.e.update_attribute("hungry", True)
+    for i in range(4):
+      self.e.update()
+    self.assertEqual(self.e.attribute("position"), (0,1))
 
 if __name__ == "__main__":
   unittest.main()

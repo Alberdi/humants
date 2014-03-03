@@ -34,24 +34,46 @@ class Lumberjack(component.Component):
    return abs(reduce(lambda a,b: max(abs(a), abs(b)),
                      map(operator.sub, origin, target)))
 
+  def get_closer_canteen(self, e):
+    canteens = filter(lambda e: e.attribute("type") == "canteen",
+                      world.entities)
+    if canteens:
+      d = [(self.distance(e.attribute("position"), x.attribute("position")), x)
+           for x in canteens]
+      return min(d)[1]
+    return None
+
+  def get_closer_tree(self, e):
+    if not self.trees:
+      self.trees = self.get_trees()
+    d = [(self.distance(e.attribute("position"), x.attribute("position")), x)
+         for x in self.trees]
+    d.sort()
+    for h,t in d:
+      if self.is_valid_tree(t):
+        self.trees.remove(t)
+        return t
+    return None
+ 
   def get_new_target(self, e):
+    if e.attribute("hungry"):
+      c = self.get_closer_canteen(e)
+      if c:
+        e.update_attribute("target", c.attribute("position"))
+        return
     if filter(lambda l: l.attribute("type") == "log", e.attribute("carries")):
       e.update_attribute("target", e.attribute("home"))
     else:
-      if not self.trees:
-        self.trees = self.get_trees()
-      d = [(self.distance(e.attribute("position"), x.attribute("position")), x)
-           for x in self.trees]
-      d.sort()
-      for h,t in d:
-        if self.is_valid_tree(t):
-          self.trees.remove(t)
-          e.update_attribute("target", t.attribute("position"))
-          return
-      
+      t = self.get_closer_tree(e)
+      if t:
+        e.update_attribute("target", t.attribute("position"))
+     
   def get_trees(self):
     return filter(lambda e: self.is_valid_tree(e), world.entities)
  
+  def getting_hungry_handler(self, e, p):
+    e.add_attribute("hungry")
+
   def is_valid_tree(self, t):
     return t.attribute("type") == "tree"
 
