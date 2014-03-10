@@ -42,4 +42,5 @@ def lumberjack():
   lumberjack.add_component(components.hunger.Hunger())
   lumberjack.add_component(components.position.Position())
   lumberjack.add_attribute("workplace", (0,0))
+  lumberjack.add_attribute("wandering_distance", 10)
   return lumberjack

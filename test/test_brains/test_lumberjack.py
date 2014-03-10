@@ -69,6 +69,12 @@ class TestLumberjack(unittest.TestCase):
       self.e.update()
     self.assertEqual(self.e.attribute("position"), (0,0))
 
+  def test_all_far(self):
+    self.e.update_attribute("wandering_distance", 1)
+    for i in range(5):
+      self.e.update()
+    self.assertEqual(self.e.attribute("position"), (0,0))
+
   def test_recollection(self):
     for i in range(100):
       self.e.update()

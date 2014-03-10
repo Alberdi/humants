@@ -46,10 +46,12 @@ class Lumberjack(component.Component):
   def get_closer_tree(self, e):
     if not self.trees:
       self.trees = self.get_trees()
-    d = [(self.distance(e.attribute("position"), x.attribute("position")), x)
+    d = [(self.distance(e.attribute("workplace"), x.attribute("position")), x)
          for x in self.trees]
     d.sort()
     for h,t in d:
+      if h > e.attribute("wandering_distance"):
+        return None
       if self.is_valid_tree(t):
         self.trees.remove(t)
         return t
