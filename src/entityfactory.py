@@ -41,5 +41,5 @@ def lumberjack():
   lumberjack.add_component(components.gototarget.GoToTarget())
   lumberjack.add_component(components.hunger.Hunger())
   lumberjack.add_component(components.position.Position())
-  lumberjack.add_attribute("home", (0,0))
+  lumberjack.add_attribute("workplace", (0,0))
   return lumberjack

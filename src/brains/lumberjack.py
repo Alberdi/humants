@@ -16,7 +16,7 @@ class Lumberjack(component.Component):
     if not e.attribute("can_act"):
       return
     if e.attribute("target") == e.attribute("position"):
-      if e.attribute("position") == e.attribute("home"):
+      if e.attribute("position") == e.attribute("workplace"):
         if e.attribute("carries"):
           e.message("released", {"released": e.attribute("carries")[0]})
           e.update_attribute("can_act", False)
@@ -62,7 +62,7 @@ class Lumberjack(component.Component):
         e.update_attribute("target", c.attribute("position"))
         return
     if filter(lambda l: l.attribute("type") == "log", e.attribute("carries")):
-      e.update_attribute("target", e.attribute("home"))
+      e.update_attribute("target", e.attribute("workplace"))
     else:
       t = self.get_closer_tree(e)
       if t:
