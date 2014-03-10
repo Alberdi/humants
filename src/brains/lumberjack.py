@@ -71,9 +71,6 @@ class Lumberjack(component.Component):
   def get_trees(self):
     return filter(lambda e: self.is_valid_tree(e), world.entities)
  
-  def getting_hungry_handler(self, e, p):
-    e.add_attribute("hungry")
-
   def is_valid_tree(self, t):
     return t.attribute("type") == "tree"
 
