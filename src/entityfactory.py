@@ -5,6 +5,7 @@ import components.gototarget
 import components.hunger
 import components.mortal
 import components.position
+import components.senescence
 import components.woundable
 import entity
 
@@ -24,6 +25,7 @@ def tree():
   tree = entity.Entity()
   tree.add_component(components.mortal.Mortal())
   tree.add_component(components.position.Position())
+  tree.add_component(components.senescence.Senescence())
   tree.add_component(components.woundable.Woundable())
   tree.add_attribute("type", "tree")
   return tree

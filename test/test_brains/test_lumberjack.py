@@ -8,9 +8,13 @@ class TestLumberjack(unittest.TestCase):
     self.e = entityfactory.lumberjack()
     world.entities.append(self.e)
     self.t1 = entityfactory.tree()
+    self.t1.update_attribute("age", 2000)
+    self.t1.update_attribute("age_etape", "adult")
     self.t1.message("moved", {"new_position": (2,2)})
     world.entities.append(self.t1)
     self.t2 = entityfactory.tree()
+    self.t2.update_attribute("age", 2000)
+    self.t2.update_attribute("age_etape", "adult")
     self.t2.message("moved", {"new_position": (3,0)})
     world.entities.append(self.t2)
     self.c = entityfactory.canteen()
@@ -33,6 +37,8 @@ class TestLumberjack(unittest.TestCase):
     for i in range(10):
       self.e.update()
     t = entityfactory.tree()
+    t.update_attribute("age", 2000)
+    t.update_attribute("age_etape", "adult")
     t.message("moved", {"new_position": (1,2)})
     world.entities.append(t)
     for i in range(10):
@@ -71,6 +77,22 @@ class TestLumberjack(unittest.TestCase):
 
   def test_all_far(self):
     self.e.update_attribute("wandering_distance", 1)
+    for i in range(5):
+      self.e.update()
+    self.assertEqual(self.e.attribute("position"), (0,0))
+
+  def test_closer_is_young(self):
+    self.t1.update_attribute("age", 20)
+    self.t1.update_attribute("age_etape", "young")
+    for i in range(10):
+      self.e.update()
+    self.assertEqual(self.e.attribute("position"), (3,0))
+
+  def test_all_young(self):
+    self.t1.update_attribute("age", 20)
+    self.t1.update_attribute("age_etape", "young")
+    self.t2.update_attribute("age", 20)
+    self.t2.update_attribute("age_etape", "young")
     for i in range(5):
       self.e.update()
     self.assertEqual(self.e.attribute("position"), (0,0))

@@ -74,7 +74,8 @@ class Lumberjack(component.Component):
     return filter(lambda e: self.is_valid_tree(e), world.entities)
  
   def is_valid_tree(self, t):
-    return t.attribute("type") == "tree"
+    return (t.attribute("type") == "tree" and
+           t.attribute("age_etape") not in ["newborn", "young"])
 
   def killed_handler(self, e, p):
     if self.is_valid_tree(p["killed"]):
