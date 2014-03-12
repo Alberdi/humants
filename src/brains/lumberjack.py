@@ -81,6 +81,9 @@ class Lumberjack(component.Component):
     if self.is_valid_tree(p["killed"]):
       if e.attribute("carries") is not None:
         e.attribute("carries").append(entityfactory.log())
+      new_tree = entityfactory.tree()
+      new_tree.message("moved", {"new_position": e.attribute("position")})
+      world.entities.append(new_tree)
 
   def update_handler(self, e, p):
     if e.attribute("can_act"):

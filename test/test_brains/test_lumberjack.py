@@ -103,6 +103,14 @@ class TestLumberjack(unittest.TestCase):
     self.assertEqual(len(filter(lambda e: e.attribute("type") == "log",
                             world.positions[(0,0)])), 2)
 
+  def test_recollection_new_trees(self):
+    for i in range(100):
+      self.e.update()
+    self.assertEqual(world.positions[(2,2)][0].attribute("age_etape"),
+                     "newborn")
+    self.assertEqual(world.positions[(3,0)][0].attribute("age_etape"),
+                     "newborn")
+
   def test_hungry(self):
     self.e.update_attribute("hungry", True)
     for i in range(4):
