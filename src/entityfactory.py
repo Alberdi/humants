@@ -9,6 +9,12 @@ import components.senescence
 import components.woundable
 import entity
 
+def bed():
+  bed = entity.Entity()
+  bed.add_component(components.position.Position())
+  bed.add_attribute("sleep_confort", 4)
+  return bed
+
 def block():
   block = entity.Entity()
   block.add_component(components.position.Position())
